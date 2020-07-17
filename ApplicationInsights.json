@@ -1,0 +1,11 @@
+{
+  "instrumentationSettings": {
+    "preview": {
+      "instrumentation": {
+        "logging": {
+          "threshold": "INFO"
+        }
+      }
+    }
+  }
+}
