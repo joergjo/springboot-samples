@@ -1,0 +1,38 @@
+version: "3.4"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  postgresql-data:
+
+services:
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: springboot-samples/data-jpa-postgresql:${TAG:-dev}
+    command: [ "--spring.profiles.active=dev" ]
+    ports:
+      - 8080:8080
+      - 4004:4004
+    environment:
+      - POSTGRESQL_HOST=postgresql-db
+      - POSTGRESQL_PASSWORD=pass@word1
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - postgresql-db
+
+  postgresql-db:
+    image: postgres:${POSTGRES_TAG:-11-alpine}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass@word1
+      - POSTGRES_DB=demo
+    networks:
+      - backend
