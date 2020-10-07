@@ -14,7 +14,7 @@ RUN ./mvnw -B package -DskipTests
 
 FROM base AS final
 WORKDIR /app
-ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.0.0-PREVIEW.5/applicationinsights-agent-3.0.0-PREVIEW.5.jar"
+ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.0.0-PREVIEW.7/applicationinsights-agent-3.0.0-PREVIEW.7.jar"
 RUN wget -q -O applicationinsights-agent-3.0.0.jar $appInsightsAgentURL
 COPY ApplicationInsights.json .
 COPY --from=build /build/target/spring-data-jpa-demo-*.jar spring-data-jpa-demo.jar

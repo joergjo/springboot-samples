@@ -1,0 +1,6 @@
+.gitignore
+.gitattributes
+.azure
+target
+docker-compose*.yml
+Dockerfile
