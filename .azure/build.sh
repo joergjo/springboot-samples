@@ -1,4 +1,5 @@
 #!/bin/bash
+version=${1:-2.3}
 repo=springboot-samples/data-jpa-postgresql
 az acr login
-az acr build -t ${repo}:latest -t ${repo}:{{.Run.ID}} -f ../Dockerfile ..
+az acr build -t ${repo}:latest -t ${repo}:${version}-{{.Run.ID}} -f ../Dockerfile ..

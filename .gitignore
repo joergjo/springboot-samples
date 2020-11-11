@@ -31,3 +31,6 @@ build/
 
 ### Docker ###
 .env
+
+### Azure CLI ###
+appsettings.json

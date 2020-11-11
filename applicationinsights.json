@@ -1,0 +1,7 @@
+{
+  "instrumentation": {
+    "logging": {
+      "threshold": "INFO"
+    }
+  }
+}
