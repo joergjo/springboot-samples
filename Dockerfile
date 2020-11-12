@@ -1,16 +1,14 @@
 FROM mcr.microsoft.com/java/jre-headless:11-zulu-alpine AS base
 EXPOSE 8080
 
-FROM mcr.microsoft.com/java/jdk:11-zulu-alpine AS build
+FROM mcr.microsoft.com/java/maven:11-zulu-debian10 AS build
 WORKDIR /build
 
-COPY mvnw .
-COPY .mvn .mvn
 COPY pom.xml .
-RUN ./mvnw -B dependency:go-offline 
+RUN mvn -B dependency:go-offline 
 
 COPY src src
-RUN ./mvnw -B package -DskipTests
+RUN mvn -B clean package -DskipTests
 
 FROM base AS final
 WORKDIR /app
