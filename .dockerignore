@@ -1,6 +1,8 @@
 .gitignore
 .gitattributes
-.azure
+.mvn
+deploy
 target
 docker-compose*.yml
 Dockerfile
+mvnw*
