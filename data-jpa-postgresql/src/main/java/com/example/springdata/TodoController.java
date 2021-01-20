@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.springdata;
 
 import java.util.Optional;
 

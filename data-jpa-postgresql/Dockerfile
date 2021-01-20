@@ -12,9 +12,9 @@ RUN mvn -B clean package -DskipTests
 
 FROM base AS final
 WORKDIR /app
-ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.0.0/applicationinsights-agent-3.0.0.jar"
+ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.0.1/applicationinsights-agent-3.0.1.jar"
 
-RUN wget -q -O applicationinsights-agent-3.0.0.jar $appInsightsAgentURL
+RUN wget -q -O applicationinsights-agent-3.0.1.jar $appInsightsAgentURL
 COPY applicationinsights.json .
 COPY --from=build /build/target/spring-data-jpa-demo-*.jar spring-data-jpa-demo.jar
-ENTRYPOINT ["java", "-javaagent:./applicationinsights-agent-3.0.0.jar", "-jar", "spring-data-jpa-demo.jar"]
+ENTRYPOINT ["java", "-javaagent:./applicationinsights-agent-3.0.1.jar", "-jar", "spring-data-jpa-demo.jar"]
