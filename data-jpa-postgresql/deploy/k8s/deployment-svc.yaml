@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: springboot-todo-api
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       annotations:
@@ -67,5 +67,6 @@ spec:
   ports:
   - port: 80
     targetPort: http
+    name: http
   selector:
     app: springboot-todo-api

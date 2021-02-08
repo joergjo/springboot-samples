@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: springboot-todo-api
@@ -12,6 +12,9 @@ spec:
       http:
         paths:
         - path: /
+          pathType: Prefix
           backend:
-            serviceName: springboot-todo-api
-            servicePort: 80
+            service:
+              name: springboot-todo-api
+              port: 
+                name: http 
