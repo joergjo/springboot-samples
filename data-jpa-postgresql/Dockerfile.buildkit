@@ -10,9 +10,9 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -DskipTests
 
 FROM base AS final
 WORKDIR /app
-ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.0.2/applicationinsights-agent-3.0.2.jar"
+ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.0.3/applicationinsights-agent-3.0.3.jar"
 
-RUN wget -q -O applicationinsights-agent-3.0.2.jar $appInsightsAgentURL
+RUN wget -q -O applicationinsights-agent-3.0.3.jar $appInsightsAgentURL
 COPY applicationinsights.json .
 COPY --from=build /build/target/spring-data-jpa-postgresql-*.jar spring-data-jpa-postgresql.jar
-ENTRYPOINT ["java", "-javaagent:./applicationinsights-agent-3.0.2.jar", "-jar", "spring-data-jpa-postgresql.jar"]
+ENTRYPOINT ["java", "-javaagent:./applicationinsights-agent-3.0.3.jar", "-jar", "spring-data-jpa-postgresql.jar"]
