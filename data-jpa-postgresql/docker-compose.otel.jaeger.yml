@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  collector:
+    volumes:
+      - type: bind
+        source: ./collector/config.jaeger.yaml
+        target: /conf/collector-config.yaml
+        read_only: true
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+    restart: unless-stopped

@@ -1,5 +1,5 @@
 #!/bin/bash
-export $(grep -v '^#' ../../.env | xargs)
+export $(grep -v '^#' ./.env | xargs)
 
 local_ip=$(curl -s 'https://api.ipify.org?format=json' | jq -r .ip)
 
