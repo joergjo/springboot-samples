@@ -2,6 +2,7 @@
 .gitattributes
 .mvn
 deploy
+otel-collector
 target
 docker-compose*.yml
 Dockerfile
