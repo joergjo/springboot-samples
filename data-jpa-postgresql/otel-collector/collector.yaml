@@ -4,7 +4,7 @@ metadata:
   name: otel-collector-secrets
 type: Opaque
 stringData:
-  DATADOG_API_KEY: "1a7d9154265612f908733fbf690bd4c7"
+  DATADOG_API_KEY: "<API-KEY>"
 ---
 apiVersion: v1
 kind: ConfigMap
