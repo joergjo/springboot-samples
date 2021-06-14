@@ -12,7 +12,7 @@ RUN mvn -B clean package -DskipTests
 
 FROM base AS final
 WORKDIR /app
-ARG appInsightsAgentVersion="3.1.0"
+ARG appInsightsAgentVersion="3.1.1"
 ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/${appInsightsAgentVersion}/applicationinsights-agent-${appInsightsAgentVersion}.jar"
 
 RUN wget -q -O applicationinsights-agent.jar $appInsightsAgentURL
