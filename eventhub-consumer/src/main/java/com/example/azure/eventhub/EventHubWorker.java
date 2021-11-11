@@ -15,6 +15,9 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
+
 @Component
 public class EventHubWorker implements DisposableBean {
     @Value("${eventhub.connection-string}")
@@ -33,7 +36,9 @@ public class EventHubWorker implements DisposableBean {
     private String containerName;
 
     private EventProcessorClient eventProcessorClient;
-    private final Logger logger = LoggerFactory.getLogger(EventHubWorker.class);
+    
+    private static final Logger logger = LoggerFactory.getLogger(EventHubWorker.class);
+    private static final Counter total = Metrics.counter("eventhub_messages_consumed_total");
 
     public EventHubWorker() {
     }
@@ -51,6 +56,7 @@ public class EventHubWorker implements DisposableBean {
                     eventContext.getEventData().getSequenceNumber());
 
             eventContext.updateCheckpoint();
+            total.increment();
         };
 
         Consumer<ErrorContext> processError = errorContext -> {
