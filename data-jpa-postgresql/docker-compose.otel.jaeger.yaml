@@ -4,7 +4,7 @@ services:
   collector:
     volumes:
       - type: bind
-        source: ./collector/config.jaeger.yaml
+        source: ./otel-collector/config.jaeger.yaml
         target: /conf/collector-config.yaml
         read_only: true
     depends_on:

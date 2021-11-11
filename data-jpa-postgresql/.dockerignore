@@ -1,6 +1,5 @@
 .gitignore
 .gitattributes
-.mvn
 .env
 .vscode
 deploy
@@ -8,5 +7,5 @@ otel-collector
 target
 docker-compose*.yml
 Dockerfile
-mvnw*
+mvnw.cmd
 *.sh

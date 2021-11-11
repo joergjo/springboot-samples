@@ -3,7 +3,7 @@ version: "3.8"
 services:
   collector:
     image: otel/opentelemetry-collector-contrib:latest
-    command: ["--config=/conf/collector-config.yaml", "--log-level=DEBUG"]
+    command: ["--config=/conf/collector-config.yaml"]
     ports:
       - "4317:4317"
       - "55680:55680"
