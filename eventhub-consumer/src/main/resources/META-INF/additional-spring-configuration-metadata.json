@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "eventhub.connection-string",
+    "type": "java.lang.String",
+    "description": "Azure Event Hub connection string"
+  },
+  {
+    "name": "eventhub.consumer-group",
+    "type": "java.lang.String",
+    "description": "Azure Event Hub consumer group"
+  },
+  {
+    "name": "eventhub.name",
+    "type": "java.lang.String",
+    "description": "Azure Event Hub name"
+  },
+  {
+    "name": "storage.connection-string",
+    "type": "java.lang.String",
+    "description": "Azure Storage connection string"
+  },
+  {
+    "name": "storage.container-name",
+    "type": "java.lang.String",
+    "description": "Azure Storage container name"
+  },
+  {
+    "name": "storage.sas-token",
+    "type": "java.lang.String",
+    "description": "SAS token to access Azure Storage"
+  }
+]}
