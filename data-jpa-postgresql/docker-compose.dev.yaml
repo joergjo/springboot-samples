@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 networks:
   frontend:
@@ -30,7 +30,7 @@ services:
       - postgresql-db
 
   postgresql-db:
-    image: postgres:${POSTGRES_TAG:-12-alpine}
+    image: postgres:${POSTGRES_TAG:-13-alpine}
     volumes:
       - postgresql-data:/var/lib/postgresql/data
     environment:

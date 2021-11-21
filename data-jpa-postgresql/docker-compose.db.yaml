@@ -1,0 +1,15 @@
+version: "3.9"
+
+volumes:
+  postgresql-data:
+
+services:
+  postgresql-db:
+    image: postgres:${POSTGRES_TAG:-13-alpine}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass@word1
+      - POSTGRES_DB=demo
