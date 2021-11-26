@@ -34,3 +34,6 @@ build/
 
 ### Azure CLI ###
 appsettings.json
+
+### SDKMan ###
+.sdkmanrc
