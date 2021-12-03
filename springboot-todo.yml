@@ -38,4 +38,5 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
+    options: -DskipTests
   displayName: Run Maven
