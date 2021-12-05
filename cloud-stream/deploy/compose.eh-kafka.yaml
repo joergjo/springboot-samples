@@ -1,0 +1,58 @@
+version: "3.9"
+services:  
+  usage-detail-sender:
+    command: [ "--spring.profiles.active=eventhub-kafka" ]
+    build:
+      context: ../usage-detail-sender
+      dockerfile: Dockerfile
+    image: springcloud-samples/usage-detail-sender:${TAG:-latest}
+    ports:
+      - "9001:9001"
+    environment:
+      - AAD_CLIENT_ID=${AAD_CLIENT_ID}
+      - AAD_CLIENT_SECRET=${AAD_CLIENT_SECRET}
+      - AAD_TENANT_ID=${AAD_TENANT_ID}
+      - AZ_SUBSCRIPTION_ID=${AZ_SUBSCRIPTION_ID}
+      - AZ_RESOURCE_GROUP=${AZ_RESOURCE_GROUP}
+      - AZ_REGION=${AZ_REGION}
+      - AZ_EVENTHUB_NAMESPACE=${AZ_EVENTHUB_NAMESPACE}
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
+      - APPLICATIONINSIGHTS_ROLE_NAME=usage-detail-sender
+
+  usage-cost-processor:
+    command: [ "--spring.profiles.active=eventhub-kafka" ]
+    build:
+      context: ../usage-cost-processor
+      dockerfile: Dockerfile
+    image: springcloud-samples/usage-cost-processor:${TAG:-latest}
+    ports:
+      - "9002:9002"
+    environment:
+      - AAD_CLIENT_ID=${AAD_CLIENT_ID}
+      - AAD_CLIENT_SECRET=${AAD_CLIENT_SECRET}
+      - AAD_TENANT_ID=${AAD_TENANT_ID}
+      - AZ_SUBSCRIPTION_ID=${AZ_SUBSCRIPTION_ID}
+      - AZ_RESOURCE_GROUP=${AZ_RESOURCE_GROUP}
+      - AZ_REGION=${AZ_REGION}
+      - AZ_EVENTHUB_NAMESPACE=${AZ_EVENTHUB_NAMESPACE}
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
+      - APPLICATIONINSIGHTS_ROLE_NAME=usage-cost-processor
+
+  usage-cost-logger:
+    command: [ "--spring.profiles.active=eventhub-kafka" ]
+    build:
+      context: ../usage-cost-logger
+      dockerfile: Dockerfile
+    image: springcloud-samples/usage-cost-logger:${TAG:-latest}
+    ports:
+      - "9003:9003"
+    environment:
+      - AAD_CLIENT_ID=${AAD_CLIENT_ID}
+      - AAD_CLIENT_SECRET=${AAD_CLIENT_SECRET}
+      - AAD_TENANT_ID=${AAD_TENANT_ID}
+      - AZ_SUBSCRIPTION_ID=${AZ_SUBSCRIPTION_ID}
+      - AZ_RESOURCE_GROUP=${AZ_RESOURCE_GROUP}
+      - AZ_REGION=${AZ_REGION}
+      - AZ_EVENTHUB_NAMESPACE=${AZ_EVENTHUB_NAMESPACE}
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
+      - APPLICATIONINSIGHTS_ROLE_NAME=usage-cost-logger

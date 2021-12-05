@@ -1,0 +1,26 @@
+{
+  "folders": [
+	{
+		"path": "deploy"
+	},
+	{
+		"path": "usage-cost-logger"
+	},
+	{
+		"path": "usage-cost-processor"
+	},
+	{
+		"path": "usage-detail-sender"
+	}
+],
+  "settings": {
+    "files.exclude": {
+      "**/.classpath": true,
+      "**/.project": true,
+      "**/.settings": true,
+      "**/.factorypath": true
+	},
+	"java.configuration.updateBuildConfiguration": "automatic",
+	"maven.view": "flat"
+  }
+}
