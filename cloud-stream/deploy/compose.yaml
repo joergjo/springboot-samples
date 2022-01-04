@@ -22,7 +22,7 @@ services:
     build:
       context: ../usage-detail-sender
       dockerfile: Dockerfile
-    image: springcloud-samples/usage-detail-sender:${TAG:-latest}
+    image: springboot-samples/usage-detail-sender:${TAG:-latest}
     ports:
       - "9001:9001"
     environment:
@@ -36,7 +36,7 @@ services:
     build:
       context: ../usage-cost-processor
       dockerfile: Dockerfile
-    image: springcloud-samples/usage-cost-processor:${TAG:-latest}
+    image: springboot-samples/usage-cost-processor:${TAG:-latest}
     ports:
       - "9002:9002"
     environment:
@@ -50,7 +50,7 @@ services:
     build:
       context: ../usage-cost-logger
       dockerfile: Dockerfile
-    image: springcloud-samples/usage-cost-logger:${TAG:-latest}
+    image: springboot-samples/usage-cost-logger:${TAG:-latest}
     ports:
       - "9003:9003"
     environment:

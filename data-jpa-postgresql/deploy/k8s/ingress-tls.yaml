@@ -6,18 +6,19 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/issuer: "letsencrypt-prod"
 spec:
+  ingressClassName: nginx
   tls:
-  - hosts:
-    - springboot-todo.<DOMAIN>
-    secretName: springboot-todo-api-ingress-tls
+    - hosts:
+        - springboot-todo.<DOMAIN>
+      secretName: springboot-todo-api-ingress-tls
   rules:
     - host: springboot-todo.<DOMAIN>
       http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: springboot-todo-api
-              port: 
-                name: http 
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: springboot-todo-api
+                port:
+                  name: http
