@@ -20,52 +20,52 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 10
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - springboot-todo-api
-              topologyKey: "kubernetes.io/hostname"
+            - weight: 10
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - springboot-todo-api
+                topologyKey: "kubernetes.io/hostname"
       containers:
-      - name: springboot-todo-api
-        image: joergjo.azurecr.io/springboot-samples/data-jpa-postgresql:latest
-        # args:
-        #   - "--spring.profiles.active=dev"
-        ports:
-        - containerPort: 8080
-          name: http
-        - containerPort: 4004
-          name: actuator
-        envFrom:
-        - secretRef:
-            name: springboot-todo-api-secrets
-        env:
-          - name: APPLICATIONINSIGHTS_ROLE_NAME
-            value: springboot-todo-api
-        livenessProbe:
-          httpGet:
-            path: /actuator/health/liveness
-            port: actuator
-          initialDelaySeconds: 30
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /actuator/health/readiness
-            port: actuator
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        resources:
-          requests:
-            cpu: 500m
-            memory: 512Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
+        - name: springboot-todo-api
+          image: joergjo.azurecr.io/springboot-samples/data-jpa-postgresql:latest
+          # args:
+          #   - "--spring.profiles.active=dev"
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 4004
+              name: actuator
+          envFrom:
+            - secretRef:
+                name: springboot-todo-api-secrets
+          env:
+            - name: APPLICATIONINSIGHTS_ROLE_NAME
+              value: springboot-todo-api
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: actuator
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: actuator
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
       nodeSelector:
-        "beta.kubernetes.io/os": linux
+        "kubernetes.io/os": linux
       tolerations:
         - key: "kubernetes.azure.com/scalesetpriority"
           operator: "Equal"
@@ -79,8 +79,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 80
-    targetPort: http
-    name: http
+    - port: 80
+      targetPort: http
+      name: http
   selector:
     app: springboot-todo-api
