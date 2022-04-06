@@ -45,7 +45,8 @@ echo -n "Updating Web App configuration..."
 az webapp config appsettings set \
   -g $rg \
   -n $webapp \
-  --settings @appsettings.json \
+  --settings POSTGRESQL_HOST="$POSTGRESQL_HOST" POSTGRESQL_USERNAME="$POSTGRESQL_USERNAME" POSTGRESQL_PASSWORD="$POSTGRESQL_PASSWORD"\
+    APPLICATIONINSIGHTS_CONNECTION_STRING="$APPLICATIONINSIGHTS_CONNECTION_STRING" APPLICATIONINSIGHTS_ROLE_NAME="springboot-todo-api" \
   -o none
 az webapp config set \
   -g $rg \
@@ -62,7 +63,7 @@ principal_id=$(az webapp identity assign \
   -o tsv)
 echo "done. Waiting for identity to propagate..."
 
-sleep 15
+sleep 60
 
 echo -n "Granting access to ACR \"$acr\"..."
 scope=$(az acr show \
