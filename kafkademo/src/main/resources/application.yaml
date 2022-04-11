@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    azure:
+      # credential:
+      #   client-id: ${AAD_CLIENT_ID}
+      #   client-secret: ${AAD_CLIENT_SECRET}
+      # profile:
+      #   tenant-id: ${AAD_TENANT_ID}
+      #   subscription-id: ${AZ_SUBSCRIPTION_ID}
+      eventhubs:
+        connection-string: ${AZ_EVENTHUB_CONNECTION_STRING}
+        # namespace: ${AZ_EVENTHUB_NAMESPACE}
+        # resource:
+        #   resource-group: ${AZ_RESOURCE_GROUP}
+    stream:
+      function:
+        definition: consume;supply
+      bindings:
+        consume-in-0:
+          destination: springcloud
+          group: $Default
+          consumer:
+            maxAttempts: 3
+            backOffInitialInterval: 500
+            backOffMultiplier: 1.0
+        supply-out-0:
+          destination: springcloud
+      kafka:
+        # bindings:
+        #   consume-in-0:
+        #     consumer:
+        #       enableDlq: false
+        #       dlqName: springcloud-dlq
+        binder:
+          replicationFactor: 1
+  datasource:
+    # url: jdbc:postgresql://${POSTGRESQL_HOST}:5432/messages?sslmode=require
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/messages?${POSTGRES_JDBC_PARAMS}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    hikari:
+      connectionTimeout: 2000
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
