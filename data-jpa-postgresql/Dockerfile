@@ -15,7 +15,7 @@ RUN ./mvnw -B clean package -DskipTests
 
 FROM base AS final
 WORKDIR /app
-ARG appInsightsAgentVersion="3.4.0"
+ARG appInsightsAgentVersion="3.4.4"
 ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/${appInsightsAgentVersion}/applicationinsights-agent-${appInsightsAgentVersion}.jar"
 
 RUN curl -s -L -o applicationinsights-agent.jar $appInsightsAgentURL
