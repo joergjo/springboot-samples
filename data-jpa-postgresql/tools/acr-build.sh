@@ -1,5 +1,5 @@
 #!/bin/bash
-version=${1:-2.7.6}
+version=${1:-2.7.8}
 platform=${2:-"linux/arm64"}
 repo=springboot-samples/data-jpa-postgresql
 az acr login
