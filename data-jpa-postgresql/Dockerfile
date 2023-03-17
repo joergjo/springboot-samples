@@ -1,7 +1,7 @@
-FROM eclipse-temurin:11-jre-focal AS base
+FROM eclipse-temurin:17-jre AS base
 EXPOSE 8080
 
-FROM eclipse-temurin:11-jdk-focal AS build
+FROM eclipse-temurin:17-jdk AS build
 WORKDIR /build
 
 COPY mvnw  .

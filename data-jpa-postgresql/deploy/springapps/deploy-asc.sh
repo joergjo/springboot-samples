@@ -3,7 +3,7 @@ az spring app create \
     -n "$SPRING_APP" \
     -s "$SPRING_APP_SERVICE" \
     -g "$SPRING_APP_RESOURCE_GROUP" \
-    --runtime-version Java_11 \
+    --runtime-version Java_17 \
     --jvm-options='-Xms1024m -Xmx1024m' \
     --assign-endpoint true
 
