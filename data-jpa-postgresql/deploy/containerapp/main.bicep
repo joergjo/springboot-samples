@@ -27,19 +27,15 @@ module network 'modules/network.bicep' = {
   name: 'network'
   params: {
     location: location
-    vnetName: '${name}-vnet'
-    privateDnsZoneName: '${name}.postgres.database.azure.com'
+    namePrefix: name
     deployDnsZone: (clientIP == '')
   }
 }
-
-var postgresServer = 'server${uniqueString(resourceGroup().id)}'
 
 module postgres 'modules/database.bicep' = {
   name: 'postgres'
   params: {
     location: location
-    server: postgresServer 
     database: database
     postgresLogin: postgresLogin
     postgresLoginPassword:postgresLoginPassword
@@ -61,7 +57,7 @@ module environment 'modules/environment.bicep' = {
 
 var secrets = {
   postgres: {
-    host: '${postgresServer}.postgres.database.azure.com'
+    host: postgres.outputs.serverFqdn
     username: postgresLogin
     password: postgresLoginPassword
   }

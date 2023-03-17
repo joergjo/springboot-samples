@@ -1,5 +1,5 @@
 @description('Specifies the name of the Azure Database for PostgreSQL flexible server.')
-param server string
+param server string = 'server-${uniqueString(resourceGroup().id)}'
 
 @description('Specifies the name of PostgreSQL database used by the application.')
 param database string
