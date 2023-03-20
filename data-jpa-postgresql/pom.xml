@@ -47,6 +47,22 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>springapps</id>
+			<properties>
+				<spring.profile.from.maven>springapps</spring.profile.from.maven>
+			</properties>
+			<dependencies>
+				<dependency>
+    				<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+					<version>4.0.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>

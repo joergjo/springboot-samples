@@ -11,5 +11,5 @@ az spring app deploy \
     -n "$SPRING_APP" \
     -s "$SPRING_APP_SERVICE" \
     -g "$SPRING_APP_RESOURCE_GROUP" \
-    --artifact-path target/spring-data-jpa-postgresql-0.0.1-SNAPSHOT.jar \
+    --artifact-path "$SPRING_APP_ARTIFACT_PATH" \
     --env POSTGRESQL_HOST="$POSTGRESQL_HOST" POSTGRESQL_USERNAME="$POSTGRESQL_USERNAME" POSTGRESQL_PASSWORD="$POSTGRESQL_PASSWORD"
