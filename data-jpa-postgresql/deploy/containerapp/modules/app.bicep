@@ -84,6 +84,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' = {
             {
               type: 'startup'
               httpGet: {
+                scheme: 'HTTP'
                 path: '/actuator/health/liveness'
                 port: 4004
               }
@@ -93,6 +94,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' = {
             {
               type: 'liveness'
               httpGet: {
+                scheme: 'HTTP'
                 path: '/actuator/health/liveness'
                 port: 4004
               }
@@ -100,6 +102,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' = {
             {
               type: 'readiness'
               httpGet: {
+                scheme: 'HTTP'
                 path: '/actuator/health/readiness'
                 port: 4004
               }

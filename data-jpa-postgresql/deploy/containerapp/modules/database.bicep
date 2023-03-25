@@ -2,7 +2,7 @@
 param server string = 'server-${uniqueString(resourceGroup().id)}'
 
 @description('Specifies the name of PostgreSQL database used by the application.')
-param database string
+param database string = ''
 
 @description('Specifies the location to deploy to.')
 param location string 
@@ -33,7 +33,7 @@ param privateDnsZoneId string
 param clientIP string
 
 @description('Specifies whether to create the database specified by \'database\'.')
-param deployDatabase bool = true
+param deployDatabase bool = (database != '')
 
 var deployAsPublic = (clientIP != '')
 

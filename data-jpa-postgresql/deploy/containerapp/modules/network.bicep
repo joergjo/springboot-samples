@@ -12,20 +12,20 @@ param privateDnsZoneName string = '${namePrefix}.postgres.database.azure.com'
 @description('Specifies whether a private DNS zone will be deployed')
 param deployDnsZone bool = true
 
-resource vnet 'Microsoft.Network/virtualNetworks@2022-01-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2022-09-01' = {
   name: '${namePrefix}-vnet'
   location: location
   properties: {
     addressSpace: {
       addressPrefixes: [
-        '10.150.0.0/16'
+        '10.150.0.0/22'
       ]
     }
     subnets: [
       {
         name: 'infrastructure'
         properties: {
-          addressPrefix: '10.150.0.0/21'
+          addressPrefix: '10.150.0.0/23'
           networkSecurityGroup: {
             id: networkSecurityGroup.id
           }
@@ -34,7 +34,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-01-01' = {
       {
         name: 'postgres-delegated'
         properties: {
-          addressPrefix: '10.150.16.0/24'
+          addressPrefix: '10.150.2.0/24'
           delegations: [
             {
               name: 'Microsoft.DBforPostgreSQL/flexibleServers'
