@@ -45,17 +45,21 @@ spec:
           env:
             - name: APPLICATIONINSIGHTS_ROLE_NAME
               value: springboot-todo-api
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: actuator
+            failureThreshold: 30
+            periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: actuator
-            initialDelaySeconds: 30
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: actuator
-            initialDelaySeconds: 30
             periodSeconds: 10
           resources:
             requests:
