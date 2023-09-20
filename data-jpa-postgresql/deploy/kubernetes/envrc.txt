@@ -1,0 +1,6 @@
+export USER_ASSIGNED_IDENTITY_RESOURCE_GROUP=<resource group of User-Assigned Managed Identity>
+export USER_ASSIGNED_IDENTITY_NAME=<name of User-Assigned Managed Identity>
+export SERVICE_ACCOUNT_NAMESPACE=<Kubernetes namespace to deploy to>
+export FEDERATED_IDENTITY_CREDENTIAL_NAME=<name of Federated Identity credential to be created>
+export CLUSTER_NAME=<name of the AKS cluster to deploy to>
+export CLUSTER_RESOURCE_GROUP="<resource group of the AKS cluster>"

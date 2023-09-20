@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: springboot-todo-api
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       annotations:
@@ -16,7 +16,9 @@ spec:
         prometheus.io/path: "/actuator/prometheus"
       labels:
         app: springboot-todo-api
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: springboot-todo-api-sa
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -32,8 +34,8 @@ spec:
       containers:
         - name: springboot-todo-api
           image: joergjo/springboot-todo-api:latest
-          # args:
-          #   - "--spring.profiles.active=dev"
+          args:
+            - "--spring.profiles.active=passwordless"
           ports:
             - containerPort: 8080
               name: http
@@ -49,25 +51,23 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: actuator
-            failureThreshold: 30
-            periodSeconds: 5
+            failureThreshold: 10
+            periodSeconds: 15
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: actuator
-            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: actuator
-            periodSeconds: 10
           resources:
             requests:
               cpu: 500m
               memory: 512Mi
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
       nodeSelector:
         "kubernetes.io/os": linux
       tolerations:
@@ -88,3 +88,20 @@ spec:
       name: http
   selector:
     app: springboot-todo-api
+# Alternate service using in internal load balancer a static IP address
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: springboot-todo-api
+#   annotations:
+#     service.beta.kubernetes.io/azure-load-balancer-ipv4: 10.1.127.127
+#     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+# spec:
+#   type: LoadBalancer
+#   ports:
+#     - port: 80
+#       targetPort: http
+#       name: http
+#   selector:
+#     app: springboot-todo-api

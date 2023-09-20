@@ -1,21 +1,18 @@
-FROM eclipse-temurin:17-jre AS base
+ARG revision=1.0.0
+
+FROM eclipse-temurin:17-jre-jammy AS base
 EXPOSE 8080
 
-FROM eclipse-temurin:17-jdk AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
+ARG revision
 WORKDIR /build
-
-COPY mvnw  .
-COPY .mvn .mvn
-
 COPY pom.xml .
-RUN ./mvnw -B dependency:go-offline 
-
 COPY src src
-RUN ./mvnw -B clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 mvn -B -DskipTests -Drevision=${revision} clean package
 
 FROM base AS final
 WORKDIR /app
-ARG appInsightsAgentVersion="3.4.14"
+ARG appInsightsAgentVersion="3.4.17"
 ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/${appInsightsAgentVersion}/applicationinsights-agent-${appInsightsAgentVersion}.jar"
 
 RUN curl -s -L -o applicationinsights-agent.jar $appInsightsAgentURL
