@@ -1,5 +1,8 @@
 version: "3.9"
 
+volumes:
+  postgresql-data:
+
 services:
   collector:
     image: otel/opentelemetry-collector-contrib:latest
@@ -10,6 +13,16 @@ services:
       - "55681:55681"
     restart: unless-stopped
 
+  postgresql-db:
+    image: postgres:${POSTGRES_TAG:-14-alpine}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass@word1
+      - POSTGRES_DB=demo
+
   springboot-app:
     build:
       context: .
@@ -19,10 +32,12 @@ services:
       - "8080:8080"
       - "4004:4004"
     environment:
-      - POSTGRESQL_HOST=${POSTGRESQL_HOST}
-      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
-      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=dev
+      - POSTGRESQL_HOST=postgresql-db
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=pass@word1
       - OTEL_RESOURCE_ATTRIBUTES=service.name=springboot-todo-api,service.version=1.0.0
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:4317
     depends_on:
       - collector
+      - postgresql-db

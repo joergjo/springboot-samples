@@ -1,3 +1,4 @@
+ARG javaagent_version="v1.32.0"
 FROM eclipse-temurin:11-jre-focal AS base
 EXPOSE 8080
 
@@ -12,7 +13,8 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw -B clean package -DskipTests
 
 FROM base AS final
 WORKDIR /app
-ARG javaAgentURL="https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent-all.jar"
-RUN curl -s -L -o opentelemetry-javaagent-all.jar $javaAgentURL
+ARG javaagent_version
+ARG javaAgentURL="https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/${javaagent_version}/opentelemetry-javaagent.jar"
+RUN curl -s -L -o opentelemetry-javaagent.jar $javaAgentURL
 COPY --from=build /build/target/spring-data-jpa-postgresql-*.jar spring-data-jpa-postgresql.jar
-ENTRYPOINT ["java", "-javaagent:./opentelemetry-javaagent-all.jar", "-jar", "spring-data-jpa-postgresql.jar"]
+ENTRYPOINT ["java", "-javaagent:./opentelemetry-javaagent.jar", "-jar", "spring-data-jpa-postgresql.jar"]
