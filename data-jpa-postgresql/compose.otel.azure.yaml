@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  collector:
+    environment:
+      - APPINSIGHTS_CONNECTION_STRING=${APPINSIGHTS_CONNECTION_STRING}
+    volumes:
+      - type: bind
+        source: ./otel-collector/config.azure.yaml
+        target: /conf/collector-config.yaml
+        read_only: true

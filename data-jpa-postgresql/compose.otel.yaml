@@ -1,0 +1,44 @@
+version: "3.9"
+
+volumes:
+  postgresql-data:
+
+services:
+  springboot-app:
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE:-Dockerfile}
+    image: ${IMAGE:-joergjo/springboot-todo-api:latest}
+    command: ["--spring.profiles.active=dev"]
+    ports:
+      - "8080:8080"
+      - "4004:4004"
+    environment:
+      - POSTGRESQL_HOST=postgresql-db
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=pass@word1
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=springboot-todo-api,service.version=1.0.0
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:4318
+      - OTEL_METRICS_EXPORTER=logging
+      - OTEL_LOGS_EXPORTER=logging
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+    depends_on:
+      - collector
+      - postgresql-db
+
+  postgresql-db:
+    image: postgres:${POSTGRES_TAG:-15-alpine}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=pass@word1
+      - POSTGRES_DB=demo
+
+  collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: ["--config=/conf/collector-config.yaml"]
+    ports:
+      - "4317:4317"
+      - "55680:55680"
+      - "55681:55681"
+    restart: unless-stopped

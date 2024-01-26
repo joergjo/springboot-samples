@@ -1,0 +1,20 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  azuremonitor:
+    connection_string: ${APPINSIGHTS_CONNECTION_STRING}
+service:
+  telemetry:
+    logs:
+      level: "debug"
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [azuremonitor]
+    metrics:
+      receivers: [otlp]
+      exporters: [azuremonitor]

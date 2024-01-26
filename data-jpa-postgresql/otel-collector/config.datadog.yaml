@@ -1,0 +1,35 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+    timeout: 10s
+
+exporters:
+  datadog/api:
+    hostname: "${HOSTNAME}"
+    env: development
+    api:
+      key: "${DATADOG_API_KEY}"
+      site: datadoghq.eu
+
+extensions:
+  health_check:
+
+service:
+  telemetry:
+    logs:
+      level: "debug"
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [datadog/api]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [datadog/api]
