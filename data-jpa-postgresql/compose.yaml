@@ -4,7 +4,7 @@ services:
   springboot-app:
     build:
       context: .
-      dockerfile: ${DOCKERFILE:-Dockerfile.buildkit}
+      dockerfile: ${DOCKERFILE:-Dockerfile}
     image: springboot-samples/data-jpa-postgresql:${TAG:-latest}
     ports:
       - 8080:8080

@@ -31,7 +31,7 @@ services:
       - postgresql-db
 
   postgresql-db:
-    image: postgres:${POSTGRES_TAG:-14-alpine}
+    image: postgres:${POSTGRES_TAG:-15-alpine}
     volumes:
       - postgresql-data:/var/lib/postgresql/data
     environment:
