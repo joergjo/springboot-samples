@@ -1,9 +1,5 @@
 version: "3.9"
 
-networks:
-  frontend:
-  backend:
-
 volumes:
   postgresql-data:
 
@@ -11,7 +7,7 @@ services:
   springboot-app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ${DOCKERFILE:-Dockerfile}
     image: ${IMAGE:-joergjo/springboot-todo-api:latest}
     command: ["--spring.profiles.active=dev"]
     ports:
@@ -24,9 +20,6 @@ services:
       - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
       - APPLICATIONINSIGHTS_ROLE_NAME=${APPLICATIONINSIGHTS_ROLE_NAME:-localhost}
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
-    networks:
-      - backend
-      - frontend
     depends_on:
       - postgresql-db
 
@@ -37,5 +30,3 @@ services:
     environment:
       - POSTGRES_PASSWORD=pass@word1
       - POSTGRES_DB=demo
-    networks:
-      - backend

@@ -14,7 +14,6 @@ FROM base AS final
 WORKDIR /app
 ARG appInsightsAgentVersion="3.4.19"
 ARG appInsightsAgentURL="https://github.com/microsoft/ApplicationInsights-Java/releases/download/${appInsightsAgentVersion}/applicationinsights-agent-${appInsightsAgentVersion}.jar"
-
 RUN curl -s -L -o applicationinsights-agent.jar $appInsightsAgentURL
 COPY applicationinsights.json .
 COPY --from=build /build/target/spring-data-jpa-postgresql-*.jar spring-data-jpa-postgresql.jar
