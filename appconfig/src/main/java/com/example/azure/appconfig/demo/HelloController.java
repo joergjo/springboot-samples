@@ -26,4 +26,9 @@ public class HelloController {
         }
         return "Message: " + properties.getMessage();
     }
+
+    @GetMapping("/buildinfo")
+    public BuildInfo getBuildInfo() {
+        return properties.getBuildInfo();
+    } 
 }
