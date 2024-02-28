@@ -1,7 +1,5 @@
 package com.example.azure.appconfig.demo;
 
-import java.util.concurrent.ExecutionException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +18,7 @@ public class HelloController {
     }
 
     @GetMapping
-    public String getMessage() throws InterruptedException, ExecutionException {
+    public String getMessage() {
         if (refresh != null) {
             refresh.refreshConfigurations();
         }
@@ -31,4 +29,9 @@ public class HelloController {
     public BuildInfo getBuildInfo() {
         return properties.getBuildInfo();
     } 
+
+    @GetMapping("/keyvault")
+    public String getKeyVaultMessage() {
+        return "KeyVaultMessage: " + properties.getKeyVaultMessage();
+    }
 }

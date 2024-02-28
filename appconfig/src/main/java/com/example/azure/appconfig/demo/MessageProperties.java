@@ -7,6 +7,7 @@ public class MessageProperties {
  
     private String message;
     private BuildInfo buildInfo;
+    private String keyVaultMessage;
 
     public String getMessage() {
         return message;
@@ -22,6 +23,14 @@ public class MessageProperties {
 
     public void setBuildInfo(BuildInfo buildInfo) {
         this.buildInfo = buildInfo;
+    }
+
+    public String getKeyVaultMessage() {
+        return keyVaultMessage;
+    }
+    
+    public void setKeyVaultMessage(String keyVaultMessage) {
+        this.keyVaultMessage = keyVaultMessage;
     }
 
 }
