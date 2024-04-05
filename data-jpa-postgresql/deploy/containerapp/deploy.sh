@@ -43,4 +43,4 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "Application has been deployed successfully. You can access it at https://$fqdn"
+echo "Application has been deployed successfully. You can access it at https://$fqdn."
