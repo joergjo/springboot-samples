@@ -1,9 +1,14 @@
 version: "3.9"
 
 services:
+  springboot-app:
+    environment:
+      - OTEL_METRICS_EXPORTER=otlp
+
   collector:
     environment:
-      - DATADOG_API_KEY=${DATADOG_API_KEY}
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=${DD_SITE}
     volumes:
       - type: bind
         source: ./otel-collector/config.datadog.yaml

@@ -2,34 +2,35 @@ receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
       http:
+        endpoint: 0.0.0.0:4318
 
 processors:
   batch:
+    send_batch_max_size: 1000
+    send_batch_size: 100
     timeout: 10s
 
-exporters:
-  datadog/api:
-    hostname: "${HOSTNAME}"
-    env: development
-    api:
-      key: "${DATADOG_API_KEY}"
-      site: datadoghq.eu
+connectors:
+    datadog/connector:
 
-extensions:
-  health_check:
+exporters:
+  datadog/exporter:
+    api:
+      key: ${env:DD_API_KEY}
+      site: ${env:DD_SITE}
 
 service:
   telemetry:
     logs:
       level: "debug"
-  extensions: [health_check]
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [datadog/api]
+      exporters: [datadog/connector, datadog/exporter]
     metrics:
-      receivers: [otlp]
+      receivers: [datadog/connector, otlp] 
       processors: [batch]
-      exporters: [datadog/api]
+      exporters: [datadog/exporter]
