@@ -7,9 +7,8 @@ services:
   springboot-app:
     build:
       context: .
-      dockerfile: ${DOCKERFILE:-Dockerfile}
+      dockerfile: ${DOCKERFILE:-Dockerfile.otel}
     image: ${IMAGE:-joergjo/springboot-todo-api:latest}
-    command: ["--spring.profiles.active=dev"]
     ports:
       - "8080:8080"
       - "4004:4004"
@@ -39,6 +38,7 @@ services:
     command: ["--config=/conf/collector-config.yaml"]
     ports:
       - "4317:4317"
+      - "4318:4318"
       - "55680:55680"
       - "55681:55681"
     restart: unless-stopped
