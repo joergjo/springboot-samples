@@ -17,7 +17,7 @@ param database string
 @secure()
 param secrets object
 
-resource containerApp 'Microsoft.App/containerApps@2022-10-01' = {
+resource containerApp 'Microsoft.App/containerApps@2023-08-01-preview' = {
   name: name
   location: location
   properties: {
@@ -68,12 +68,12 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' = {
               secretRef: 'postgres-password'
             }
             {
-              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-              secretRef: 'appinsights-connectionstring'
-            }
-            {
               name: 'POSTGRES_DB'
               value: database
+            }
+            {
+              name: 'OTEL_RESOURCE_ATTRIBUTES'
+              value: 'env=dev,geo=emea'
             }
           ]
           resources: {
@@ -106,7 +106,6 @@ resource containerApp 'Microsoft.App/containerApps@2022-10-01' = {
                 path: '/actuator/health/readiness'
                 port: 4004
               }
-              initialDelaySeconds: 15
             }
           ]
         }

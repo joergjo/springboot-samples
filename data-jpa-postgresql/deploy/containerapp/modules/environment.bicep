@@ -9,6 +9,13 @@ param location string
 @description('Specifies the subnet resource ID for the Container App environment.')
 param infrastructureSubnetId string
 
+@description('Specifies the Datadog API Key.')
+@secure()
+param ddApiKey string
+
+@description('Specifies the Datadog site.')
+param ddSite string
+
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: '${namePrefix}-logs'
   location: location
@@ -29,7 +36,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-resource environment 'Microsoft.App/managedEnvironments@2022-10-01' = {
+resource environment 'Microsoft.App/managedEnvironments@2023-08-01-preview' = {
   name: '${namePrefix}-env'
   location: location
   properties: {
@@ -39,6 +46,32 @@ resource environment 'Microsoft.App/managedEnvironments@2022-10-01' = {
         customerId: logAnalyticsWorkspace.properties.customerId
         sharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
       }
+    }
+    appInsightsConfiguration:{
+      connectionString: appInsights.properties.ConnectionString
+    }
+    openTelemetryConfiguration:{
+      destinationsConfiguration:{
+        dataDogConfiguration:{
+          site: ddSite
+          key: ddApiKey
+        }
+      }
+      tracesConfiguration:{
+        destinations:['dataDog']
+      }
+      metricsConfiguration:{
+        destinations:['dataDog']
+      }
+      // tracesConfiguration:{
+      //   destinations:['appInsights']
+      // }
+      // logsConfiguration:{
+      //   destinations:['appInsights']
+      // }
+      // metricsConfiguration:{
+      //   destinations:['appInsights']
+      // }
     }
     vnetConfiguration: {
       infrastructureSubnetId: infrastructureSubnetId

@@ -20,6 +20,13 @@ param postgresLogin string
 @secure()
 param postgresLoginPassword string
 
+@description('Specifies the Datadog API Key.')
+@secure()
+param ddApiKey string
+
+@description('Specifies the Datadog site. Defaults to datadoghq.com.')
+param ddSite string = 'datadoghq.com'
+
 @description('Specifies the client IP address to whitelist in the database server\'s firewall.')
 param clientIP string = ''
 
@@ -52,6 +59,8 @@ module environment 'modules/environment.bicep' = {
     location: location
     namePrefix: name  
     infrastructureSubnetId: network.outputs.infraSubnetId
+    ddApiKey: ddApiKey
+    ddSite: ddSite
   }
 }
 

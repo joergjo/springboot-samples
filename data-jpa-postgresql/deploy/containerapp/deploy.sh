@@ -21,12 +21,17 @@ location=${CONTAINERAPP_LOCATION:-"westeurope"}
 postgres_login="$CONTAINERAPP_POSTGRES_LOGIN"
 postgres_login_pwd="$CONTAINERAPP_POSTGRES_LOGIN_PWD"
 database=${CONTAINERAPP_POSTGRES_DB-"demo"}
+dd_api_key=${CONTAINERAPP_DD_API_KEY:-""}
+dd_site=${CONTAINERAPP_DD_SITE:-"datadoghq.com"}
 timestamp=$(date +%s)
 client_ip=$(curl -s 'https://api.ipify.org?format=text')
 
+echo "Ensuring resource group $resource_group in region $location exists..."
+
 az group create \
   --resource-group "$resource_group" \
-  --location "$location"
+  --location "$location" \
+  --output none
 
 fqdn=$(az deployment group create \
   --resource-group "$resource_group" \
@@ -34,7 +39,7 @@ fqdn=$(az deployment group create \
   --template-file main.bicep \
   --parameters image="$image" name="$name" \
     postgresLogin="$postgres_login" postgresLoginPassword="$postgres_login_pwd" \
-    database="$database" clientIP="$client_ip" \
+    database="$database" clientIP="$client_ip" ddApiKey="$dd_api_key" ddSite="$dd_site" \
   --query properties.outputs.fqdn.value \
   --output tsv)
 
