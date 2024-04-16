@@ -20,6 +20,8 @@ exporters:
     api:
       key: ${env:DD_API_KEY}
       site: ${env:DD_SITE}
+    metrics:
+      resource_attributes_as_tags: true
 
 service:
   telemetry:

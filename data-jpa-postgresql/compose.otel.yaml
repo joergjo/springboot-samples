@@ -16,7 +16,7 @@ services:
       - POSTGRESQL_HOST=postgresql-db
       - POSTGRESQL_USERNAME=postgres
       - POSTGRESQL_PASSWORD=pass@word1
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=springboot-todo-api,service.version=1.0.0
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=springboot-todo-api,service.version=1.0.0,deployment.environment=dev,datadog.container.tag.geo=emea
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://collector:4318
       - OTEL_METRICS_EXPORTER=logging
       - OTEL_LOGS_EXPORTER=logging
