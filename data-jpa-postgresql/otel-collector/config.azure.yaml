@@ -2,11 +2,14 @@ receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
       http:
+        endpoint: 0.0.0.0:4318
 
 exporters:
   azuremonitor:
-    connection_string: ${APPINSIGHTS_CONNECTION_STRING}
+    connection_string: ${env:APPINSIGHTS_CONNECTION_STRING}
+
 service:
   telemetry:
     logs:
