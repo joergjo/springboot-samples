@@ -73,7 +73,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-08-01-preview' = {
             }
             {
               name: 'OTEL_RESOURCE_ATTRIBUTES'
-              value: 'env=dev,geo=emea'
+              value: 'datadog.container.tag.geo=emea,deployment.environment=dev'
             }
           ]
           resources: {
