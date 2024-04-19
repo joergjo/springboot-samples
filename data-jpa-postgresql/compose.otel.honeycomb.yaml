@@ -3,13 +3,14 @@ version: "3.9"
 services:
   springboot-app:
     environment:
+      - OTEL_TRACES_EXPORTER=otlp
       - OTEL_METRICS_EXPORTER=otlp
       - OTEL_LOGS_EXPORTER=otlp
 
   collector:
     environment:
       - HONEYCOMB_API_KEY=${HONEYCOMB_API_KEY}
-      - HONEYCOMB_DATASET=${HONEYCOMB_DATASET}
+      - HONEYCOMB_DATASET=springboot-todo-api
     volumes:
       - type: bind
         source: ./otel-collector/config.honeycomb.yaml
