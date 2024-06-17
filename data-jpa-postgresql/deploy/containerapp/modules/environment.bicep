@@ -4,7 +4,7 @@
 param namePrefix string
 
 @description('Specifies the location to deploy to.')
-param location string 
+param location string
 
 @description('Specifies the subnet resource ID for the Container App environment.')
 param infrastructureSubnetId string
@@ -16,7 +16,11 @@ param ddApiKey string
 @description('Specifies the Datadog site.')
 param ddSite string
 
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+// HACK
+var deployAppInsights = false
+var deployOpenTelemetry = !empty(ddApiKey) && !empty(ddSite)
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: '${namePrefix}-logs'
   location: location
   properties: {
@@ -30,13 +34,32 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: '${namePrefix}-insights'
   location: location
   kind: 'java'
-  properties: { 
+  properties: {
     Application_Type: 'web'
     WorkspaceResourceId: logAnalyticsWorkspace.id
   }
 }
 
-resource environment 'Microsoft.App/managedEnvironments@2023-08-01-preview' = {
+var appInsightsConfiguration = deployAppInsights ? {
+  connectionString: appInsights.properties.ConnectionString
+} : null
+
+var openTelemetryConfiguration = deployOpenTelemetry ? {
+  destinationsConfiguration: {
+    dataDogConfiguration: {
+      site: ddSite
+      key: ddApiKey
+    }
+  }
+  tracesConfiguration: {
+    destinations: ['dataDog']
+  }
+  metricsConfiguration: {
+    destinations: ['dataDog']
+  }
+} : null
+
+resource environment 'Microsoft.App/managedEnvironments@2023-11-02-preview' = {
   name: '${namePrefix}-env'
   location: location
   properties: {
@@ -47,32 +70,8 @@ resource environment 'Microsoft.App/managedEnvironments@2023-08-01-preview' = {
         sharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
       }
     }
-    appInsightsConfiguration:{
-      connectionString: appInsights.properties.ConnectionString
-    }
-    openTelemetryConfiguration:{
-      destinationsConfiguration:{
-        dataDogConfiguration:{
-          site: ddSite
-          key: ddApiKey
-        }
-      }
-      tracesConfiguration:{
-        destinations:['dataDog']
-      }
-      metricsConfiguration:{
-        destinations:['dataDog']
-      }
-      // tracesConfiguration:{
-      //   destinations:['appInsights']
-      // }
-      // logsConfiguration:{
-      //   destinations:['appInsights']
-      // }
-      // metricsConfiguration:{
-      //   destinations:['appInsights']
-      // }
-    }
+    appInsightsConfiguration: appInsightsConfiguration
+    openTelemetryConfiguration: openTelemetryConfiguration
     vnetConfiguration: {
       infrastructureSubnetId: infrastructureSubnetId
     }

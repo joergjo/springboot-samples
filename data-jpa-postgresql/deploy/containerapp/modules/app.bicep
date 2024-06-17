@@ -17,7 +17,7 @@ param database string
 @secure()
 param secrets object
 
-resource containerApp 'Microsoft.App/containerApps@2023-08-01-preview' = {
+resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
   name: name
   location: location
   properties: {
@@ -72,9 +72,13 @@ resource containerApp 'Microsoft.App/containerApps@2023-08-01-preview' = {
               value: database
             }
             {
-              name: 'OTEL_RESOURCE_ATTRIBUTES'
-              value: 'env=dev,geo=emea'
+              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+              secretRef: 'appinsights-connectionstring'
             }
+            // {
+            //   name: 'OTEL_RESOURCE_ATTRIBUTES'
+            //   value: 'env=dev,geo=emea'
+            // }
           ]
           resources: {
             cpu: json('1.0')
