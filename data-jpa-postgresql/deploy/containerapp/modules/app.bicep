@@ -13,9 +13,18 @@ param image string
 @description('Specifies the database name to use.')
 param database string
 
+@description('Specifies the name of the Open Telemetry Collector Container App.')
+param collector string
+
 @description('Specifies the secrets used by the application.')
 @secure()
 param secrets object
+
+var healthCheck = {
+  scheme: 'HTTP'
+  port: 4004
+  path: '/actuator/health'
+}
 
 resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
   name: name
@@ -43,10 +52,6 @@ resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
           name: 'postgres-password'
           value: secrets.postgres.password
         }
-        {
-          name: 'appinsights-connectionstring'
-          value: secrets.appinsights.connectionString
-        }
       ]
     }
     template: {
@@ -72,13 +77,29 @@ resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
               value: database
             }
             {
-              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-              secretRef: 'appinsights-connectionstring'
+              name: 'OTEL_EXPORTER_OTLP_ENDPOINT'
+              value: 'http://${collector}:4318'
             }
-            // {
-            //   name: 'OTEL_RESOURCE_ATTRIBUTES'
-            //   value: 'env=dev,geo=emea'
-            // }
+            {
+              name: 'OTEL_EXPORTER_OTLP_PROTOCOL'
+              value: 'http/protobuf'
+            }
+            {
+              name: 'OTEL_TRACES_EXPORTER'
+              value: 'otlp'
+            }
+            {
+              name: 'OTEL_METRICS_EXPORTER'
+              value: 'otlp'
+            }
+            {
+              name: 'OTEL_LOGS_EXPORTER'
+              value: 'console'
+            }
+            {
+              name: 'OTEL_RESOURCE_ATTRIBUTES'
+              value: 'service.name=springboot-todo-api,service.version=1.0.0,deployment.environment=dev,datadog.container.tag.geo=emea'
+            }
           ]
           resources: {
             cpu: json('1.0')
@@ -88,9 +109,9 @@ resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
             {
               type: 'startup'
               httpGet: {
-                scheme: 'HTTP'
-                path: '/actuator/health/liveness'
-                port: 4004
+                scheme: healthCheck.scheme
+                path: '${healthCheck.path}/liveness'
+                port: healthCheck.port
               }
               failureThreshold: 10
               periodSeconds: 15
@@ -98,17 +119,17 @@ resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
             {
               type: 'liveness'
               httpGet: {
-                scheme: 'HTTP'
-                path: '/actuator/health/liveness'
-                port: 4004
+                scheme: healthCheck.scheme
+                path: '${healthCheck.path}/liveness'
+                port: healthCheck.port
               }
             }
             {
               type: 'readiness'
               httpGet: {
-                scheme: 'HTTP'
-                path: '/actuator/health/readiness'
-                port: 4004
+                scheme: healthCheck.scheme
+                path: '${healthCheck.path}/readiness'
+                port: healthCheck.port
               }
             }
           ]

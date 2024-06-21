@@ -41,12 +41,12 @@ var deployAsPublic = (clientIP != '')
 
 var firewallrules = [
   {
-    name: 'AllowAzure'
+    name: 'allow-all-azure'
     startIpAddress: '0.0.0.0'
     endIpAddress: '0.0.0.0'
   }
   {
-    name: 'AllowClient'
+    name: 'allow-client'
     startIpAddress: clientIP
     endIpAddress: clientIP
   }

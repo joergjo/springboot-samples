@@ -1,12 +1,11 @@
 .gitignore
 .gitattributes
-.env
+.env*
+.sdkmanrc
 .vscode
 deploy
 otel-collector
 target
-docker-compose*.yml
-Dockerfile
-mvnw.cmd
-*.sh
-.sdkmanrc
+compose*.yaml
+Dockerfile*
+mvnw*

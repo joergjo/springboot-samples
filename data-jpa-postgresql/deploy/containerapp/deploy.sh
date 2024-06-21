@@ -15,7 +15,7 @@ if [ -z "$CONTAINERAPP_POSTGRES_LOGIN_PWD" ]; then
 fi
 
 resource_group="$CONTAINERAPP_RESOURCE_GROUP"
-image=${CONTAINERAPP_IMAGE:-"joergjo/springboot-todo-api:latest"}
+image=${CONTAINERAPP_IMAGE:-"docker.io/joergjo/springboot-todo-api:3.26-otel"}
 name=${CONTAINERAPP_NAME:-"todoapi"}
 location=${CONTAINERAPP_LOCATION:-"westeurope"}
 postgres_login="$CONTAINERAPP_POSTGRES_LOGIN"

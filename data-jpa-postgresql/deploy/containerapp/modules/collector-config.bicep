@@ -1,3 +1,5 @@
+@export()
+var collectorConfig = '''
 receivers:
   otlp:
     protocols:
@@ -37,3 +39,4 @@ service:
       receivers: [datadog/connector, otlp] 
       processors: [batch]
       exporters: [datadog/exporter]
+'''

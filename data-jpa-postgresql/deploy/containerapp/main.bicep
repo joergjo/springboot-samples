@@ -59,19 +59,24 @@ module environment 'modules/environment.bicep' = {
     location: location
     namePrefix: name  
     infrastructureSubnetId: network.outputs.infraSubnetId
+  }
+}
+
+module collector 'modules/collector.bicep' = {
+  name: 'collector'
+  params: {
+    location: location
+    environmentId: environment.outputs.environmentId
     ddApiKey: ddApiKey
     ddSite: ddSite
   }
 }
 
-var secrets = {
+var appSecrets = {
   postgres: {
     host: postgres.outputs.serverFqdn
     username: postgresLogin
     password: postgresLoginPassword
-  }
-  appinsights: {
-    connectionString: environment.outputs.appInsightsConnectionString
   }
 }
 
@@ -83,7 +88,8 @@ module app 'modules/app.bicep' = {
     environmentId: environment.outputs.environmentId
     image: image
     database: database
-    secrets: secrets
+    collector: collector.outputs.appName
+    secrets: appSecrets
   }
 }
 
