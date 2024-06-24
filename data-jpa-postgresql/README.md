@@ -27,6 +27,16 @@ This project contains a deyploment script to deploy the sample solution to Azure
 
 * A Bash shell (built into macOS abd Linux, on Windows 10/11 install the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install))
 * The [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-with-azure-cli)
+* If you don't want to install these tools on your machine, you can use the [Azure Cloud Shell](https://learn.microsoft.com/en-us/azure/cloud-shell/overview) instead, which has everything you will need preinstalled.
+
+### First time use
+
+If this is the first time you use the Azure CLI on your machine, log in to Azure and install Bicep. This is not required if you are using Cloud Shell.
+
+```bash
+az login
+az bicep install 
+```
 
 ### Setting required environment variables
 
