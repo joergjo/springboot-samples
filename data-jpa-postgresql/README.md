@@ -46,13 +46,13 @@ The deployment script relies on a number of environment variables to deploy the 
 Open a terminal window and execute these commands:
 
 ```bash
+cd <path-to-repo>/deploy/containerapp
 export CONTAINERAPP_RESOURCE_GROUP='<your-resource-group>'
 export CONTAINERAPP_LOCATION='<your-azure-region>'
-export CONTAINERAPP_DD_API_KEY='<your-datagog-api-key>'
-export CONTAINERAPP_DD_SITE='<your-datagog-site>'
-export CONTAINERAPP_POSTGRES_LOGIN='flexserver'
+export CONTAINERAPP_DD_API_KEY='<your-datadog-api-key>'
+export CONTAINERAPP_DD_SITE='<your-datadog-site>'
+export CONTAINERAPP_POSTGRES_LOGIN='springboot'
 export CONTAINERAPP_POSTGRES_LOGIN_PWD="$(openssl rand -base64 12 | tr -dc 'A-Za-z0-9' | head -c 16)"
-cd <path-to-repo>/deploy/containerapp
 ./deploy.sh
 ```
 
