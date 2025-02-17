@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: ${DOCKERFILE:-Dockerfile}
     image: ${IMAGE:-joergjo/springboot-todo-api:latest}
-    command: ["--spring.profiles.active=dev"]
     ports:
       - "8080:8080"
       - "4004:4004"
